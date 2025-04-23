@@ -1,0 +1,41 @@
+/*  */
+
+.active-link {
+  font-weight: bold;
+  color: #0d6efd !important;
+  text-decoration: underline;
+}
+
+/* Card Hover and Image Zoom Effects */
+.card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card-img-top {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Text truncation for long content */
+.truncate-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+}
+
+.glass-navbar {
+  background-color: rgba(255, 255, 255, 0.2) !important; /* transparent white */
+  backdrop-filter: blur(4px); /* frosted glass effect */
+  -webkit-backdrop-filter: blur(20px); /* for Safari */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease;
+}
+
