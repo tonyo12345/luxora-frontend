@@ -8,6 +8,7 @@ import {
   Button,
   Image,
   Badge,
+  Dropdown,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css"; // Import Bootstrap Icons
@@ -66,7 +67,7 @@ const NavbarComponent = () => {
                   )}
                 </Nav.Link>
 
-                <Nav.Link
+                {/* <Nav.Link
                   as={NavLink}
                   to="/profile"
                   className="d-flex align-items-center px-3"
@@ -79,7 +80,28 @@ const NavbarComponent = () => {
                     alt="profile"
                     className="me-2 border border-secondary-subtle"
                   />
-                </Nav.Link>
+                </Nav.Link> */}
+                <Dropdown align="end" className="px-3">
+                  <Dropdown.Toggle
+                    as={Image}
+                    src="https://pcgg.gov.ph/wp-content/uploads/2024/02/Profile-Placeholder.jpg"
+                    roundedCircle
+                    width="32"
+                    height="32"
+                    alt="profile"
+                    className="me-2 border border-secondary-subtle"
+                    style={{ cursor: "pointer" }}
+                  />
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item as={NavLink} to="/profile">
+                      View Profile
+                    </Dropdown.Item>
+                    <Dropdown.Item as={NavLink} to="/myorders">
+                      View Orders
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
 
                 <Button
                   variant={loading ? "danger" : "outline-danger"}
@@ -111,7 +133,7 @@ const NavbarComponent = () => {
               <NavDropdown title="Admin" id="admin-dropdown" align="end">
                 <NavDropdown.Item
                   as={NavLink}
-                  to="/admin-dashboard"
+                  to="/allorders"
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   Dashboard

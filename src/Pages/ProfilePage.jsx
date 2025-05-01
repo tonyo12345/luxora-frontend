@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
-  const { user } = useAuth();
-
+  const { user, logout } = useAuth();
+  
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -25,6 +25,10 @@ const ProfilePage = () => {
 
     fetchProfile();
   }, [user?.id]);
+
+  const handleLogOut = () => {
+    logout();
+  }
 
   if (!profile) return <div className="text-center py-5">Loading profile...</div>;
 
@@ -98,7 +102,7 @@ const ProfilePage = () => {
           </Link>
           <button
             className="btn btn-outline-danger w-50"
-            onClick={() => alert("Logging out...")}
+            onClick={handleLogOut}
           >
             Logout
           </button>

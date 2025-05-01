@@ -21,6 +21,9 @@ import EditProfile from "./Pages/EditProfile.jsx"
 import ProductCards from "./Pages/AdminProducts.jsx";
 import UpdateProd from "./Pages/UpdateProduct.jsx";
 import ProdUpdate from "./Pages/ProdUpdate.jsx";
+import CheckOut from "./Pages/CheckOut.jsx";
+import MyOrders from "./Pages/MyOrders.jsx";
+import AdminViewAllOrders from "./Pages/AdminViewAllOrders.jsx";
 
 function App() {
   return (
@@ -82,6 +85,14 @@ function App() {
                 </AdminRoute>
               }
             ></Route>
+            <Route
+              path="/allorders"
+              element={
+                <AdminRoute>
+                  <AdminViewAllOrders />
+                </AdminRoute>
+              }
+            ></Route>
             <Route path="/editProfile" element={
               <PrivateRoute>
               <EditProfile/>
@@ -100,6 +111,16 @@ function App() {
              <Route path="/prodUpdate/:id" element={
               <PrivateRoute>
                 <ProdUpdate/>
+              </PrivateRoute>
+            } />
+             <Route path="/checkout" element={
+              <PrivateRoute>
+                <CheckOut/>
+              </PrivateRoute>
+            } />
+             <Route path="/myorders" element={
+              <PrivateRoute>
+                <MyOrders/>
               </PrivateRoute>
             } />
           </Routes>

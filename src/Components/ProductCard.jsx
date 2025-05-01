@@ -100,7 +100,7 @@ export default function ProductCard() {
                     {/* Optionally show rating stars or stock */}
                   </div>
 
-                  <div
+                  {/* <div
                     className="bg-light rounded p-2 mb-3"
                     style={{ maxHeight: "100px", overflowY: "auto" }}
                   >
@@ -114,7 +114,7 @@ export default function ProductCard() {
                     ) : (
                       <p className="text-muted small mb-0">No reviews yet.</p>
                     )}
-                  </div>
+                  </div> */}
 
                   <button
                     onClick={() => handleAddToCart(product.id)}

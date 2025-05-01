@@ -3,9 +3,12 @@ import { useAuth } from "../Context/AuthContext";
 import { useCart } from "../Context/CartContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import axios from "../Utils/axios.jsx"; // Pre-configured Axios instance
 
 export default function ViewCart() {
   const { cartItems, fetchCart, updateCart, removeItem } = useCart();
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -47,13 +50,50 @@ export default function ViewCart() {
     }
   };
 
+  const handleCheckOut = async () => {
+    let hasNoStock = [];
+    const confirm = window.confirm(
+      "Are you sure you want to proceed to checkout?"
+    );
+    if (!confirm) {
+      return; // Exit if the user cancels
+    }
+    cartItems.forEach((element) => {
+      if (element.stock <= 0) {
+        hasNoStock.push(element.title);
+        return;
+      }
+    });
+
+    if (hasNoStock.length > 0) {
+      alert(`The following item(s) is out of stock: ${hasNoStock.join(", ")}`);
+    } else {
+      navigate("/checkout");
+    }
+
+    try {
+      await axios.post("/orders");
+      toast.success("Checkout successful!");
+
+      navigate("/myorders");
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      toast.error("Checkout failed. Please try again.");
+    }
+  };
+
   return (
-    <div className="container py-5" style={{
-      height: "100vh",
-      marginTop: "50px",
-      width: "100%"
-    }}>
-      <h2 className="mb-4 text-center fw-bold text-primary">Your Shopping Cart</h2>
+    <div
+      className="container py-5"
+      style={{
+        height: "100vh",
+        marginTop: "50px",
+        width: "100%",
+      }}
+    >
+      <h2 className="mb-4 text-center fw-bold text-primary">
+        Your Shopping Cart
+      </h2>
 
       {cartItems.length === 0 ? (
         <div className="text-center text-muted">Your cart is empty.</div>
@@ -64,7 +104,11 @@ export default function ViewCart() {
               <div
                 className="col-12 col-md-5" // Fixed column layout
                 key={item.id}
-                style={{ display: 'flex', justifyContent: 'center', width:"400px"}} // Centering each card
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "400px",
+                }} // Centering each card
               >
                 <div
                   className="card h-100 shadow-sm border-0 rounded-3"
@@ -85,7 +129,7 @@ export default function ViewCart() {
                     <p className="mb-2">
                       <strong>Price:</strong> ${item.price}
                     </p>
-
+                    <p className="mb-2">Stock left: {item.stock}</p>
                     <div
                       className="d-flex align-items-center gap-3 mb-3"
                       style={{ justifyContent: "space-between" }}
@@ -93,7 +137,9 @@ export default function ViewCart() {
                       <button
                         className="btn btn-outline-secondary btn-sm"
                         style={{ width: "40px" }}
-                        onClick={() => decreaseItem(item.product_id, item.quantity)}
+                        onClick={() =>
+                          decreaseItem(item.product_id, item.quantity)
+                        }
                       >
                         −
                       </button>
@@ -120,8 +166,13 @@ export default function ViewCart() {
           <hr className="my-4" />
 
           <div className="text-end">
-            <h4 className="fw-bold text-primary">Total: ${totalCartAmount.toFixed(2)}</h4>
-            <button className="btn btn-success mt-3 rounded-pill px-4 py-2">
+            <h4 className="fw-bold text-primary">
+              Total: ${totalCartAmount.toFixed(2)}
+            </h4>
+            <button
+              className="btn btn-success mt-3 rounded-pill px-4 py-2"
+              onClick={handleCheckOut}
+            >
               Proceed to Checkout
             </button>
           </div>
